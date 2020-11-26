@@ -1,20 +1,33 @@
 const path = require('path')
+const { webpack } = require('webpack')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
 module.exports = {
-    mode: 'development',
+    mode: 'production',
     entry: {
-        index: './lib/index.tsx'
+        index: './lib/index.js',
     },
     output: {
         path: path.resolve(__dirname, 'dist/lib'),
         library: 'weui',
         libraryTarget: 'umd',
+        publicPath: '~/',
     },
-    module: {
-        rules: [
-            {
-                test: /\.tsx?$/,
-                loader: 'awesome-typescript-loader'
-            }
-        ]
+    devServer: {
+        contentBase: path.join(__dirname, 'dist'),
+        hot: true,
+        port: 9000,
+        inline:true
     },
+    plugins: [
+        new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
+    ],
+    // module: {
+    //     rules: [
+    //         {
+    //             test: /\.tsx?$/,
+    //             loader: 'awesome-typescript-loader'
+    //         }
+    //     ]
+    // },
 }
